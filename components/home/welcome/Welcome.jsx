@@ -6,7 +6,7 @@ import { icons, SIZES, } from '../../../constants'
 
 const JobTypes = ['Full-time', 'Part-time', 'Contract']
 
-const Welcome = () => {
+const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
   const router = useRouter()
   const [activeJobType, setActiveJobType] = useState('Full-time');
 
@@ -17,25 +17,40 @@ const Welcome = () => {
         <Text style={styles.welcomeMessage}>Find your perfect job
         </Text>
       </View>
+
       <View style={styles.searchContainer}>
         <View style={styles.searchWrapper}>
-          <TextInput style={styles.searchInput} value='' onChange={() => { }}
+          <TextInput
+            style={styles.searchInput}
+            value={searchTerm}
+            onChangeText={(text) => {
+              setSearchTerm(text)
+            }}
             placeholder='what are you looking for?'
           />
         </View>
-        <TouchableOpacity style={styles.searchBtn} onPress={() => { }}>
+
+        <TouchableOpacity
+          style={styles.searchBtn}
+          onPress={handleClick}
+        >
           <Image style={styles.searchBtnImage} source={icons.search} resizeMode='contain' />
         </TouchableOpacity>
       </View>
+
       <View style={styles.tabsContainer}>
-        <FlatList data={JobTypes} renderItem={({ item }) => (
-          <TouchableOpacity style={styles.tab(activeJobType, item)} onPress={() => {
-            setActiveJobType(item);
-            router.push(`/search/${item}`)
-          }}>
-            <Text style={styles.tabText(activeJobType, item)}>{item}</Text>
-          </TouchableOpacity>
-        )}
+        <FlatList
+          data={JobTypes}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.tab(activeJobType, item)}
+              onPress={() => {
+                setActiveJobType(item);
+                router.push(`/search/${item}`)
+              }}>
+              <Text style={styles.tabText(activeJobType, item)}>{item}</Text>
+            </TouchableOpacity>
+          )}
           keyExtractor={item => item}
           contentContainerStyle={{ columnGap: SIZES.small }}
           horizontal
